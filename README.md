@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# styled-components-v5
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Basics of styled-components
 
-In the project directory, you can run:
+> **What I learned:**
+>
+> Global styling
+>
+> Conditional styling based on props
+>
+> Bulk styling with {css} from styled-components
 
-### `npm start`
+In this section, I learned how to create my first React styled-component, and also how to pass props and render conditionally using these props. I also learned to use createGlobalStyle and how to add Google fonts to the project. Most importantly, I learned how to apply bulk styling using the css helper library from styled-components.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+___
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### Using named exports instead of default exports:
 
-### `npm test`
+```
+|_src
+  |_components
+  |_common
+    |_Button.js
+    |_index.js
+|_index.js
+|_App.js
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```jsx
+// common/Button.js
 
-### `npm run build`
+const Button = styled.button`
+...
+`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+export {Button};
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```jsx
+// common/index.js
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+import * from './Button'
+```
 
-### `npm run eject`
+```jsx
+// App.js
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+import {Button} from '../components/common'
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Bulk styling using css helper
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```jsx
+import styled, {css} from 'styled-components'
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+const Button = styled.button`
+  ${props => props.large ? css`
+	padding:10px;
+	border-radius: 6px;
+  ` : css`
+    padding: 8px;
+    border-radiouis: 4px;
+  `}
+`
+```
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Building the layout and header
 
-### Code Splitting
+> **What I learned:**
+>
+> react-router-dom
+>
+> 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+In this section, I learned how to create my first React styled-component, and also how to 
 
-### Analyzing the Bundle Size
+___
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### h4
