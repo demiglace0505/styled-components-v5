@@ -74,10 +74,43 @@ const Button = styled.button`
 >
 > react-router-dom
 >
-> 
+> styling a Link component
 
-In this section, I learned how to create my first React styled-component, and also how to 
+In this section, I created a main layout component called `PageLayout` that will hold the Header and the Content components. The Content component is passed the `children` prop, which is to be rendered within the Content component.
 
 ___
 
-#### h4
+#### Styling the Link component based on routes using useLocation hook
+
+As per [official documentation](https://styled-components.com/docs/basics#styling-any-component), styling a third-party component works with the styled() method as long as the className prop is attached and passed to a DOM element. Then, we make use of the useLocation, which returns  the location object that represents the URL. This hook returns a new location whenever the URL changes.
+
+```jsx
+import { Link as ReactRouterDomLink, useLocation } from 'react-router-dom' // any name is valid, we just need to avoid using the Link namespace
+
+const Link = ({isActive, children, ...props}) => {
+  return (
+    <ReactRouterDomLink {...props}>
+      {children}
+    </ReactRouterDomLink>
+  )
+}
+
+const StyledLink = styled(Link)`
+  font-weight: ${props => props.isActive ? 'bold' : 'normal'};
+`
+
+...
+export const Header = () => {
+  const {pathname} = useLocation();
+  return(
+    <StyledLink to="/" isActive={pathname==='/'}>
+      Home
+    </StyledLink>
+    <StyledLink to="/login" isActive={pathname==='/login'}>
+      Login
+    </StyledLink>   
+  )
+}
+
+```
+
