@@ -1,36 +1,45 @@
-import {Button} from '../components/common'
-import {createGlobalStyle} from 'styled-components'
+import React, { useState } from 'react'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import Login from './pages/Login'
 import Home from './pages/Home'
 
-import {BrowserRouter, Switch, Route} from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+
+import LightTheme from '../themes/light'
+import DarkTheme from '../themes/dark'
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background-color: white;
+    background-color: ${props => props.theme.bodyBackgroundColor};
+    color: ${props => props.theme.bodyFontColor};
     min-height: 100vh;
     margin: 0;
-    color: black;
     font-family: 'Kaushan Script'
   }
 `
 
 const App = () => {
+  const [theme, setTheme] = useState(LightTheme)
+  
   return (
-    <>
-    <GlobalStyle />
-    <BrowserRouter>
-      <Switch>
-        <Route path="/login">
-          <Login />
-        </Route>
-          
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
-    </BrowserRouter>
-    </>
+    <ThemeProvider theme={{
+      ...theme, setTheme: () => {
+        setTheme(state => state.id === 'light' ? DarkTheme : LightTheme)
+      }
+    }}>
+      <GlobalStyle />
+      <BrowserRouter>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

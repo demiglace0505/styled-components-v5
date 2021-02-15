@@ -36,6 +36,12 @@ const Button = styled.button`
 `
 
 export {Button};
+
+//or
+
+export const Button = styled.button`
+...
+`
 ```
 
 ```jsx
@@ -66,8 +72,6 @@ const Button = styled.button`
 `
 ```
 
-
-
 ## Building the layout and header
 
 > **What I learned:**
@@ -80,7 +84,6 @@ const Button = styled.button`
 >
 > Writing media queries
 >
-> Using one useState hook for multiple fields
 
 In this section, I created a main layout component called `PageLayout` that will hold the Header and the Content components. The Content component is passed the `children` prop, which is to be rendered within the Content component.
 
@@ -147,6 +150,18 @@ const Menu = styled.div`
   display: ${props => props.open ? 'block' : 'none'};
 `
 ```
+
+## Building the login UI
+
+> **What I learned:**
+>
+> Creating forms and event handlers for submission and text field entry
+>
+> animation using styled-components keyframes
+
+In this section, I learned how to style an input component, and how to use a single useState hook for multiple input fields. I learned to create forms and to conditionally render a spinner animation using keyframes.
+
+____
 
 #### Using one useState hook for managing multiple form fields
 
@@ -230,5 +245,151 @@ export const Spinner = styled.div`
   margin: 16px auto;
   animation: ${rotation} 1s linear infinite;
 `
+```
+
+## Variables and Theming
+
+> **What I learned:**
+>
+> Creating forms and event handlers for submission and text field entry
+>
+> animation using styled-components keyframes
+
+In this section, I learned how to style an input component, and how to use a single useState hook for multiple input fields. I learned to create forms and to conditionally render a spinner animation using keyframes.
+
+____
+
+#### How to use ThemeProvider
+
+```jsx
+import { ThemeProvider } from 'styled-components'
+
+const theme = {
+  primaryColor: '#f8049c',
+  secondaryColor: '#fdd54f'
+}
+
+const App = () => {
+  return (
+  	<ThemeProvider Theme={theme}>
+  	  ...
+  	</ThemeProvider>
+  )
+}
+
+//Header.js
+const HeaderWrapper = styled.header`
+  ...
+  background-image: linear-gradient(to right, ${props => props.theme.primaryColor}, ${props => props.theme.primaryColor})
+`
+```
+
+#### Creating a dark theme toggle
+
+Themes directory:
+
+```jsx
+//light.js
+const theme = {
+  id: 'light',
+  primaryColor: '#f8049c',
+  secondaryColor: '#fdd54f'
+}
+
+export default theme;
+
+//dark.js
+const theme = {
+  id: 'dark',
+  primaryColor: '#000',
+  secondaryColor: 'midnightblue'
+}
+
+export default theme;
+```
+
+App.js:
+
+Note that the useState() hook gets the object from the themes directory, in this case, it defaults to LightTheme (light.js).
+
+
+
+```jsx
+import LightTheme from '../themes/light'
+import DarkTheme from '../themes/dark'
+
+const App = () => {
+  const [theme, setTheme] = useState(LightTheme)
+  console.log(theme)
+    // Object:
+    // id: "light"
+	// primaryColor: "#f8049c"
+	// secondaryColor: "#fdd54f"
+  return (
+    <ThemeProvider theme={{
+      ...theme, 
+      setTheme: () => {
+        setTheme(state => state.id === 'light' ? DarkTheme : LightTheme)
+      }
+    }}>
+      ...
+    </ThemeProvider>
+  );
+}
+```
+
+Toggle.js:
+
+```jsx
+const ToggleWrapper = styled.div`
+  width: 50px;
+  min-width: 50px;
+  height: 25px;
+  border-radius: 25px;
+  border: 1px solid #666;
+  margin: auto;
+  display: flex;
+  background-image: linear-gradient(to bottom, ${props => props.theme.primaryColor}, ${props => props.theme.secondaryColor});
+`
+
+const Notch = styled.div`
+  height: 21px;
+  width: 21px;
+  border: 1px solid #666;
+  margin-top: 1px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.1s linear;
+  transform: translate(${props => props.isActive ? '26px' : '1px'});
+`
+
+export const Toggle = ({isActive, onToggle}) => {
+  return (
+    <ToggleWrapper onClick={onToggle}>
+      <Notch isActive={isActive} />
+    </ToggleWrapper>
+  )
+}
+```
+
+Header.js: Note that useContext(ThemeContext) has id as one of its parameter because it is destructured from App.js's `...theme` spread operator.
+
+```jsx
+import React, {useState, useContext} from 'react'
+import styled, {ThemeContext} from 'styled-components'
+
+import {Toggle} from './Toggle'
+
+...
+
+export const Header = () => {
+  const {id, setTheme} = useContext(ThemeContext)
+
+  return (
+    ...
+        <Toggle isActive={id === 'dark'} onToggle={setTheme}/>
+      
+  )
+}
 ```
 
