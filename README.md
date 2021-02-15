@@ -114,3 +114,31 @@ export const Header = () => {
 
 ```
 
+#### Using useState hook and onClick event handlers to toggle menu visibility
+
+```jsx
+export const Header = () => {
+  const [menuOpen, setmenuOpen] = useState(false)
+
+  return (
+    <HeaderWrapper>
+      <MobileMenuIcon onClick={() => setmenuOpen(!menuOpen)}>
+		...
+      </MobileMenuIcon>
+      <Menu open={menuOpen}>
+        <StyledLink to="/" isActive={pathname === '/'}>
+          Home
+        </StyledLink>
+        <StyledLink to="/login" isActive={pathname === '/login'}>
+          Login
+        </StyledLink>
+      </Menu>
+    </HeaderWrapper>
+  )
+}
+
+const Menu = styled.div`
+  display: ${props => props.open ? 'block' : 'none'};
+`
+```
+
