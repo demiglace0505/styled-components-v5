@@ -251,11 +251,11 @@ export const Spinner = styled.div`
 
 > **What I learned:**
 >
-> Creating forms and event handlers for submission and text field entry
+> Using ThemeProvider and variables
 >
-> animation using styled-components keyframes
+> Dark theme toggle
 
-In this section, I learned how to style an input component, and how to use a single useState hook for multiple input fields. I learned to create forms and to conditionally render a spinner animation using keyframes.
+In this section, I learned how to use the ThemeProvider component from styled-components and how to use variables to apply a global theme. I also created a dark theme toggle which makes use of the useContext hook under the hood to provide context information about the current theme to our components. I also learned to implement the dark and light theme to the global styles.
 
 ____
 
@@ -311,8 +311,6 @@ export default theme;
 App.js:
 
 Note that the useState() hook gets the object from the themes directory, in this case, it defaults to LightTheme (light.js).
-
-
 
 ```jsx
 import LightTheme from '../themes/light'
@@ -391,5 +389,45 @@ export const Header = () => {
       
   )
 }
+```
+
+#### Implementing dark theme
+
+themes directory:
+
+```jsx
+//light.js
+const theme = {
+  id: 'light',
+  primaryColor: '#f8049c',
+  secondaryColor: '#fdd54f',
+  bodyBackgroundColor: '#fff',
+  bodyFontColor: '#000'
+}
+
+export default theme;
+
+//dark.js
+const theme = {
+  id: 'dark',
+  primaryColor: '#000',
+  secondaryColor: 'midnightblue',
+  bodyBackgroundColor: '#000',
+  bodyFontColor: '#fff'
+}
+
+export default theme;
+```
+
+App.js Global style:
+
+```jsx
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${props => props.theme.bodyBackgroundColor};
+    color: ${props => props.theme.bodyFontColor};
+    ...
+  }
+`
 ```
 
