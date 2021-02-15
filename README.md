@@ -75,6 +75,12 @@ const Button = styled.button`
 > react-router-dom
 >
 > styling a Link component
+>
+> Toggling menu visibility
+>
+> Writing media queries
+>
+> Using one useState hook for multiple fields
 
 In this section, I created a main layout component called `PageLayout` that will hold the Header and the Content components. The Content component is passed the `children` prop, which is to be rendered within the Content component.
 
@@ -140,5 +146,62 @@ export const Header = () => {
 const Menu = styled.div`
   display: ${props => props.open ? 'block' : 'none'};
 `
+```
+
+#### Using one useState hook for managing multiple form fields
+
+```jsx
+const Login = () => {
+  const [formFields, setformFields] = useState({username: '', password: ''})
+
+  const handleInputChange = (event) => {
+    event.persist()
+    setformFields(state => ({
+      ...state,
+      [event.target.name]: event.target.value
+    }))
+  }
+
+  return (
+      <Form>
+        <Input 
+          name="username" 
+          placeholder="username" 
+          onChange={handleInputChange}
+          value={formFields.username}
+          type="text"
+          />
+
+        <Input 
+          name="password" 
+          placeholder="password" 
+          onChange={handleInputChange}
+          value={formFields.password}
+          type="password"
+          />
+      </Form>
+  )
+}
+```
+
+#### Using styled-components attrs helper method to inject attributes to a component
+
+```jsx
+const PasswordInputStyled = styled(Input).attrs(()=> ({
+  type: 'password',
+  placeholder: 'password'
+}))`
+  ...
+`
+```
+
+which results to:
+
+```jsx
+<PasswordInput 
+  name="password" 
+  onChange={handleInputChange}
+  value={formFields.password}
+/>
 ```
 

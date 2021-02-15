@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components'
 
-const Button = styled.button`
+export const Button = styled.button`
   color: white;
   background-color: ${props => props.secondary ? 'black' : '#f8049c'};
   font-weight: bold;
@@ -26,5 +26,3 @@ const Button = styled.button`
 
   }
 `
-
-export {Button};
