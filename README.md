@@ -431,3 +431,80 @@ const GlobalStyle = createGlobalStyle`
 `
 ```
 
+## Advanced
+
+> **What I learned:**
+>
+> styled components and CSS selectors
+>
+> Extracting logic into external function and interpolating it as a style
+
+In this section, I learned to reference a styled component from within another styled component by using CSS selectors. I also learned to tidy up the code by creating a function for the conditional logic and interpolating it into the style.
+
+____
+
+#### Referencing other styled components from within another styled component and CSS selectors
+
+```jsx
+const Form = styled.form`
+  ...
+
+  >${Button}:first-of-type { // first Button component that is a child (>) of Form
+    margin-top: 40px;
+    
+  }
+`
+```
+
+#### Interpolating functions
+
+Instead of:
+
+```jsx
+export const Button = styled.button`
+  ...
+  ${props => props.large ? css`
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.5em;
+    ` : css`
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 1em;
+  `}
+`
+```
+
+We can move out the logic into a function and interpolate it.
+
+```jsx
+const largeStyles = (props) => {
+  if (props.large) {
+    return css`
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 1.5em;
+      `
+  } else {
+    css`
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 1em;
+      `
+  }
+}
+
+export const Button = styled.button`
+  ${largeStyles}
+`
+```
+
+#### Type safety using prop-types
+
+```jsx
+Button.propTypes = {
+  large: PropTypes.bool,
+  secondary: PropTypes.bool
+}
+```
+
